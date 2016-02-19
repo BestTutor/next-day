@@ -14,9 +14,12 @@ void GetDate(int &m, int &d, int &y);
 void ShowDate(int m, int d, int y);
 bool NextDate(int &m, int &d, int &y);
 
-int DaysInMonth (int m, int y);
-bool DateIsValid(int m, int d, int y);
+// function: user input validation
+bool DateIsValid(int &m, int &d, int &y);
+// function: leap year validation
 bool IsLeapYear(int y);
+// function: calculate number of days in Month
+int DaysInMonth (int m, int y);
 /*
  *
  */
@@ -28,6 +31,12 @@ int main() {
     do
     {
         GetDate(m, d, y);
+        if (!DateIsValid(m, d, y)) {
+            cout << "INVALID INPUT!" << endl;
+            ans = 'y';
+            continue;
+        }
+        
         cout << "The day after ";
         ShowDate(m, d, y);
         bool errorCode = NextDate(m, d, y);
@@ -87,9 +96,11 @@ bool NextDate(int &m, int &d, int &y) {
 
 // DateIsValid function: validate entered month and date
 // 유저가 잘못된 date 을 입력할경우 return false
-bool DateIsValid(int m, int d, int y) {
+bool DateIsValid(int &m, int &d, int &y) {
     if (d > 0 && d <= DaysInMonth (m, y))
         return true;
+    else if (d == 0 || m == 0)
+        return false;
     else
         return false;
 }
